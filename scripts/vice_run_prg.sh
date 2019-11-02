@@ -18,8 +18,10 @@ function send_monitor {
 	echo $1 | ncat $VICE_HOST $VICE_PORT >> /dev/null
 }
 
-send_monitor 'reset 0'				# soft reset the C64
-sleep 2								# wait until reset is done
-send_monitor "l \"$PRG\" 0"			# load the binary
-send_monitor 'g $1000'				# jump to the start address of the binary
+send_monitor 'reset 0'					# soft reset the C64
+sleep 1									# wait until reset is done
+send_monitor "l \"$PRG\" 0"				# load the binary
+sleep 1									# wait until reset is done
+send_monitor 'g $801'					# jump to the std Basic entrypoint
+send_monitor "keybuf \x52\x55\x4e\x0d"	# fake typing "RUN" + enter
 
